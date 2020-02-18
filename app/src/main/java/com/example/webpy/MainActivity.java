@@ -1,10 +1,12 @@
 package com.example.webpy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -82,5 +84,42 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.FeedBack:
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("text/plain");
+                String[] emailID = {"rokon11ahmed@gmail.com"};
+                String emailSubject = "Feedback From Webpy User";
+
+                emailIntent.setType("message/rfc822");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, emailID);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+                startActivity(Intent.createChooser(emailIntent,"choose an email client"));
+
+                break;
+            case R.id.share:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String subject ="Web to App converter";
+                String body = "You can easily convert any website into app";
+
+                intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                intent.putExtra(Intent.EXTRA_TEXT, body);
+                startActivity(Intent.createChooser(intent,"Share with"));
+
+
+                break;
+            default:
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

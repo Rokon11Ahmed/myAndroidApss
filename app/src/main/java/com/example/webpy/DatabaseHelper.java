@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -14,9 +15,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME= "Database_name";
     private static final String TABLE_NAME= "Table_name";
+    private Context context;
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.context = context;
     }
 
     @Override
@@ -24,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String create_table= "create table "+TABLE_NAME+
                 "(id INTEGER PRIMARY KEY, txt TEXT)";
         db.execSQL(create_table);
+        Toast.makeText(context, "Databse Created", Toast.LENGTH_SHORT).show();
 
     }
 
