@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
 
     ListView listView;
-    ArrayList<String> link = new ArrayList<>();;
+    ArrayList<String> link = new ArrayList<>();
     ArrayAdapter<String> adapter;
 
     DatabaseHelper databaseHelper;
@@ -41,8 +41,12 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listview);
 
         databaseHelper = new DatabaseHelper(MainActivity.this);
-        link = databaseHelper.getAlltext();
-        adapter= new ArrayAdapter<String>(MainActivity.this,
+        try {
+            link = databaseHelper.getAlltext();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        adapter= new ArrayAdapter<>(MainActivity.this,
                 R.layout.sample_arraylist_layout, R.id.sampleEditText, link);
         listView.setAdapter(adapter);
 
@@ -73,9 +77,10 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Toast.makeText(getApplicationContext(), "Hi", Toast.LENGTH_SHORT).show();
                 String showlink = link.get(position);
-                Toast.makeText(getApplicationContext(), showlink, Toast.LENGTH_SHORT).show();
+
+
                 Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
                 intent.putExtra("link", showlink);
                 startActivity(intent);
@@ -83,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
